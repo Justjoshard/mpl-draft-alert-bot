@@ -271,9 +271,31 @@ def main():
             changed = True
             save_state(issue_number, state)
 
-    if not changed:
-        print("No notifications needed")
+   
+def test_notifications():
+    print("Running notification preview...")
+
+    fake_match = {
+        "id": "test-match",
+        "league": "MPL Testing Region",
+        "team1": "Handsome Boys",
+        "team2": "Lord Stealers",
+        "start": NOW + timedelta(minutes=5)
+    }
+
+    print("\n--- DAILY GREETING PREVIEW ---")
+    print(daily_message([fake_match]))
+
+    print("\n--- PREGAME REMINDER PREVIEW ---")
+    print(pregame_message(fake_match))
+
+    print("\nPreview complete. No Telegram messages sent.")
 
 
 if __name__ == "__main__":
+    if os.getenv("TEST_MODE") == "true":
+        test_notifications()
+    else:
+        main()
+":
     main()
