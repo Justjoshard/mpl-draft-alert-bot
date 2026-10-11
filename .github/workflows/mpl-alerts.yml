@@ -24,4 +24,5 @@ jobs:
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          PANDASCORE_API_KEY: ${{ secrets.PANDASCORE_API_KEY }}
         run: python bot.py
