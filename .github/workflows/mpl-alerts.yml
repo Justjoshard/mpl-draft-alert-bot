@@ -3,10 +3,21 @@ name: MPL Telegram Alerts
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "2-59/5 * * * *"
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: mpl-telegram-alerts
+  cancel-in-progress: false
 
 jobs:
-  send-test:
+  mpl-alerts:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
 
     steps:
       - name: Download repository
@@ -20,9 +31,10 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run Telegram bot
+      - name: Run MPL bot
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           PANDASCORE_API_KEY: ${{ secrets.PANDASCORE_API_KEY }}
+          GITHUB_TOKEN: ${{ github.token }}
         run: python bot.py
