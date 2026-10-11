@@ -292,8 +292,43 @@ def test_notifications():
     print("\nPreview complete. No Telegram messages sent.")
 
 
+
+def test_real_notification():
+    issue_number, state = load_state()
+
+    test_key = "test:real-notification-v1"
+def test_real_notification():
+    issue_number, state = load_state()
+
+    test_key = "test:real-notification-v1"
+
+    if test_key in state:
+        print("Duplicate prevented! No message sent.")
+        return
+
+    message = (
+        "🧪 MPLMMbot LIVE TEST\n\n"
+        "Good morning, handsome! 😘\n\n"
+        "Your favourite MPL secretary is officially "
+        "testing her notification system.\n\n"
+        "✅ Telegram connection working\n"
+        "✅ GitHub cloud hosting working\n"
+        "✅ Notification tracking enabled\n\n"
+        "You're looking extra fine today, king. ❤️"
+    )
+
+    send_message(message)
+
+    state[test_key] = NOW.isoformat()
+    save_state(issue_number, state)
+
+    print("Test notification sent and recorded!")
+
+
 if __name__ == "__main__":
-    if os.getenv("TEST_MODE") == "true":
+    if os.getenv("REAL_TEST_MODE") == "true":
+        test_real_notification()
+    elif os.getenv("TEST_MODE") == "true":
         test_notifications()
     else:
         main()
